@@ -228,7 +228,7 @@ function About({ enquiryHref }) {
           maths support and mentoring student coding projects.
         </p>
         <p>
-          Ofer also holds an enhanced DBS certificate.
+          Ofer also holds an enhanced DBS certificate, currently under renewal.
         </p>
         <p>
           The aim is practical: help students understand the material, practise with
