@@ -2,18 +2,12 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import {
   ArrowRight,
-  Brain,
+  BookOpen,
   CheckCircle2,
-  GraduationCap,
-  Laptop,
   Mail,
-  MapPin,
   Menu,
-  MessageCircle,
   Phone,
   Sigma,
-  Sparkles,
-  Target,
   X,
 } from "lucide-react";
 import "./styles.css";
@@ -24,56 +18,32 @@ const contact = {
   location: "London and online",
 };
 
-const subjects = [
-  "GCSE and IGCSE Maths",
-  "A-level Maths",
-  "KS2 and KS3 support",
-  "Computer Science and coding projects",
-  "Problem solving and exam preparation",
+const pages = [
+  { id: "details", label: "Details" },
+  { id: "process", label: "Process" },
+  { id: "about", label: "About" },
 ];
 
-const strengths = [
+const detailItems = [
   {
-    icon: Brain,
-    title: "Understanding before shortcuts",
-    text: "Lessons focus on why methods work, so students can adapt when exam questions look unfamiliar.",
-  },
-  {
-    icon: Target,
-    title: "Structured practice",
-    text: "Each topic is broken into clear steps, checked with worked examples, then strengthened with targeted questions.",
-  },
-  {
-    icon: Laptop,
-    title: "Real technical context",
-    text: "Ofer brings a software engineering background into tutoring, making abstract ideas feel more concrete.",
-  },
-];
-
-const levels = [
-  {
-    title: "GCSE Maths",
-    text: "Core skills, exam readiness, confidence with algebra, graphs, number, ratio, geometry and problem solving.",
+    title: "GCSE and IGCSE Maths",
+    text: "Clear support with algebra, graphs, number, ratio, geometry and exam-style problem solving.",
   },
   {
     title: "A-level Maths",
-    text: "Conceptual support for Year 12 and Year 13 students, with attention to technique, fluency and exam strategy.",
+    text: "Structured help for Year 12 and Year 13 topics, with attention to method, fluency and exam technique.",
   },
   {
-    title: "Younger Learners",
-    text: "KS2 and KS3 foundations for pupils who need patient explanations, steady practice and stronger habits.",
-  },
-  {
-    title: "Coding Mentoring",
-    text: "Computer Science, React/JavaScript, Python, C#, C++ and practical project guidance for motivated students.",
+    title: "KS2 and KS3 Foundations",
+    text: "Patient lessons for younger learners who need stronger basics, better habits and more confidence.",
   },
 ];
 
 const process = [
-  "Start with the student's current topic, confidence level and immediate school goals.",
+  "Begin with the student's current topic, school goals and confidence level.",
   "Explain the idea plainly, then work through examples together.",
-  "Practise independently with guidance, spotting gaps before they become habits.",
-  "Finish with a short recap and a useful next step for revision.",
+  "Practise independently with guidance and quick feedback.",
+  "Share clear session notes and exercises so the student can revise before the next meeting.",
 ];
 
 function App() {
@@ -90,7 +60,7 @@ function App() {
   return (
     <main>
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="Ofer Guez home">
+        <a className="brand" href="#top" aria-label="Ofer Guez home" onClick={closeMenu}>
           <span className="brand-mark">
             <Sigma size={24} strokeWidth={2.4} />
           </span>
@@ -111,158 +81,174 @@ function App() {
         </button>
 
         <nav className={menuOpen ? "nav-links open" : "nav-links"} aria-label="Main navigation">
-          <a href="#approach" onClick={closeMenu}>Approach</a>
-          <a href="#subjects" onClick={closeMenu}>Subjects</a>
-          <a href="#about" onClick={closeMenu}>About</a>
-          <a href="#contact" onClick={closeMenu}>Contact</a>
+          {pages.map((page) => (
+            <a
+              href={`#${page.id}`}
+              key={page.id}
+              onClick={closeMenu}
+            >
+              {page.label}
+            </a>
+          ))}
         </nav>
       </header>
 
-      <section className="hero" id="top">
-        <div className="hero-copy">
-          <p className="eyebrow">GCSE and A-level maths support in London and online</p>
-          <h1>Private maths tutoring that builds real understanding.</h1>
-          <p className="hero-text">
-            Patient, structured lessons for students who want clearer explanations,
-            stronger exam technique and more confidence with problem solving.
-          </p>
-          <div className="hero-actions">
-            <a className="button primary" href={enquiryHref}>
-              <Mail size={18} />
-              Enquire now
-            </a>
-            <a className="button secondary" href="#approach">
-              See approach
-              <ArrowRight size={18} />
-            </a>
-          </div>
-          <div className="contact-strip" aria-label="Contact details">
-            <span><Phone size={16} /> {contact.phone}</span>
-            <span><MapPin size={16} /> {contact.location}</span>
-          </div>
-        </div>
-
-        <div className="hero-visual" aria-label="Maths tutoring desk scene">
-          <img src="/assets/maths-tutoring-desk.png" alt="" />
-          <div className="hero-note">
-            <Sparkles size={18} />
-            <span>Clear explanations, steady practice, useful feedback.</span>
-          </div>
-        </div>
-      </section>
-
-      <section className="section intro-band" aria-label="Tutoring summary">
-        <div>
-          <strong>Teaching focus</strong>
-          <p>{subjects.join(" · ")}</p>
-        </div>
-        <a className="text-link" href={`mailto:${contact.email}`}>
-          {contact.email}
-        </a>
-      </section>
-
-      <section className="section" id="approach">
-        <div className="section-heading">
-          <p className="eyebrow">Approach</p>
-          <h2>Lessons shaped around how the student thinks.</h2>
-        </div>
-        <div className="feature-grid">
-          {strengths.map(({ icon: Icon, title, text }) => (
-            <article className="feature-card" key={title}>
-              <Icon size={28} />
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="split-section" id="subjects">
-        <div className="section-heading">
-          <p className="eyebrow">Subjects</p>
-          <h2>Focused support from foundations to exam preparation.</h2>
-          <p>
-            Ofer works with students across school levels, with particular strength
-            in GCSE, A-level and practical computing.
-          </p>
-        </div>
-        <div className="level-list">
-          {levels.map((level) => (
-            <article className="level-row" key={level.title}>
-              <CheckCircle2 size={22} />
-              <div>
-                <h3>{level.title}</h3>
-                <p>{level.text}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section process-section">
-        <div className="section-heading">
-          <p className="eyebrow">Session flow</p>
-          <h2>A calm rhythm for making progress.</h2>
-        </div>
-        <ol className="process-list">
-          {process.map((step, index) => (
-            <li key={step}>
-              <span>{index + 1}</span>
-              <p>{step}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section className="about-section" id="about">
-        <div>
-          <p className="eyebrow">About Ofer</p>
-          <h2>Maths, Computer Science and professional software experience.</h2>
-        </div>
-        <div className="about-copy">
-          <p>
-            Ofer has a BSc in Mathematics and Computer Science from Tel Aviv
-            University and a professional background building complex .NET/C#
-            software systems. His tutoring experience includes Action Tutoring,
-            GCSE pupils, A-level maths support and mentoring student coding projects.
-          </p>
-          <p>
-            The aim is practical and human: help students understand the material,
-            practise with purpose and feel less stuck when a question changes shape.
-          </p>
-        </div>
-      </section>
-
-      <section className="contact-section" id="contact">
-        <div>
-          <p className="eyebrow">Contact</p>
-          <h2>Ask about availability.</h2>
-          <p>
-            Send the student year group, current topic, preferred format and useful
-            times. Ofer offers online lessons and in-person tutoring across London.
-          </p>
-        </div>
-        <div className="contact-panel">
-          <a href={`tel:${contact.phone.replaceAll(" ", "")}`}>
-            <Phone size={20} />
-            {contact.phone}
-          </a>
-          <a href={`mailto:${contact.email}`}>
-            <Mail size={20} />
-            {contact.email}
-          </a>
-          <a href={enquiryHref} className="button primary">
-            <MessageCircle size={18} />
-            Start an enquiry
-          </a>
-        </div>
-      </section>
+      <Home enquiryHref={enquiryHref} />
+      <Details />
+      <Process enquiryHref={enquiryHref} />
+      <About enquiryHref={enquiryHref} />
 
       <footer>
         <span>Ofer Guez Maths Tutoring</span>
-        <span>London · Online · GCSE · A-level</span>
+        <span>{contact.location}</span>
       </footer>
     </main>
+  );
+}
+
+function Home({ enquiryHref }) {
+  return (
+    <section className="hero page-shell" id="top">
+      <div className="hero-copy">
+        <p className="eyebrow">GCSE and A-level maths support</p>
+        <h1>Simple, patient maths tutoring.</h1>
+        <p className="hero-text">
+          Private lessons in London and online for students who want clearer explanations,
+          steadier practice and more confidence.
+        </p>
+        <div className="hero-actions">
+          <a className="button primary" href={enquiryHref}>
+            <Mail size={18} />
+            Enquire
+          </a>
+          <a className="button secondary" href="#details">
+            Details
+            <ArrowRight size={18} />
+          </a>
+        </div>
+      </div>
+
+      <div className="hero-visual" aria-label="Maths tutoring desk scene">
+        <img src="/assets/friendly-maths-landing.png" alt="" />
+      </div>
+    </section>
+  );
+}
+
+function Details() {
+  return (
+    <section className="page-shell detail-page" id="details">
+      <div className="page-heading">
+        <p className="eyebrow">Details</p>
+        <h1>Support for school maths.</h1>
+        <p>
+          Lessons are adapted to the student's level, current school work and upcoming
+          assessments.
+        </p>
+      </div>
+
+      <div className="level-list">
+        {detailItems.map((level) => (
+          <article className="level-row" key={level.title}>
+            <CheckCircle2 size={22} />
+            <div>
+              <h2>{level.title}</h2>
+              <p>{level.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <aside className="details-box" aria-label="Tuition details">
+        <h2>Tuition details</h2>
+        <p>
+          Tuition is £50 per hour. The first introductory meeting is free. Lessons are
+          available online and in London.
+        </p>
+      </aside>
+    </section>
+  );
+}
+
+function Process({ enquiryHref }) {
+  return (
+    <section className="page-shell detail-page" id="process">
+      <div className="page-heading">
+        <p className="eyebrow">Process</p>
+        <h1>A calm lesson rhythm.</h1>
+        <p>
+          Each session is focused, practical and easy to follow, with time for
+          explanation and independent practice.
+        </p>
+      </div>
+
+      <ol className="process-list">
+        {process.map((step, index) => (
+          <li key={step}>
+            <span>{index + 1}</span>
+            <p>{step}</p>
+          </li>
+        ))}
+      </ol>
+
+      <div className="contact-card">
+        <BookOpen size={24} />
+        <div>
+          <h2>Introductory meeting</h2>
+          <p>
+            The first introductory meeting is free. Regular tuition is £50 per hour.
+          </p>
+        </div>
+        <a className="button primary" href={enquiryHref}>
+          <Mail size={18} />
+          Ask about times
+        </a>
+      </div>
+    </section>
+  );
+}
+
+function About({ enquiryHref }) {
+  return (
+    <section className="page-shell detail-page about-page" id="about">
+      <div className="page-heading">
+        <p className="eyebrow">About</p>
+        <h1>Maths, computing and clear explanations.</h1>
+      </div>
+
+      <div className="about-copy">
+        <p>
+          Ofer has a BSc in Mathematics and Computer Science from Tel Aviv
+          University and a professional background building complex .NET/C# software
+          systems.
+        </p>
+        <p>
+          His tutoring experience includes Action Tutoring, GCSE pupils, A-level
+          maths support and mentoring student coding projects.
+        </p>
+        <p>
+          Ofer also holds an enhanced DBS certificate.
+        </p>
+        <p>
+          The aim is practical: help students understand the material, practise with
+          purpose and feel less stuck when a question changes shape.
+        </p>
+      </div>
+
+      <div className="contact-card">
+        <Phone size={24} />
+        <div>
+          <h2>Contact</h2>
+          <p>
+            {contact.phone} · {contact.email}
+          </p>
+        </div>
+        <a className="button primary" href={enquiryHref}>
+          <Mail size={18} />
+          Enquire
+        </a>
+      </div>
+    </section>
   );
 }
 
