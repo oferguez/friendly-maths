@@ -10,12 +10,13 @@ import {
   Sigma,
   X,
 } from "lucide-react";
+import landingImage from "../assets/friendly-maths-landing.png";
 import "./styles.css";
 
 const contact = {
   email: "guez.ofer@gmail.com",
   phone: "07942 740306",
-  location: "London and online",
+  location: "Islington/Hackney and online",
 };
 
 const pages = [
@@ -52,7 +53,7 @@ function App() {
   const enquiryHref = `mailto:${contact.email}?subject=${encodeURIComponent(
     "Maths tutoring enquiry",
   )}&body=${encodeURIComponent(
-    "Hello Ofer,\n\nI am interested in maths tutoring.\n\nStudent year group:\nMain topic or goal:\nOnline or London in-person:\nPreferred times:\n\nThanks,",
+    "Hello Ofer,\n\nI am interested in maths tutoring.\n\nStudent year group:\nMain topic or goal:\nOnline or Islington/Hackney in-person:\nPreferred times:\n\nThanks,",
   )}`;
 
   const closeMenu = () => setMenuOpen(false);
@@ -113,7 +114,7 @@ function Home({ enquiryHref }) {
         <p className="eyebrow">GCSE and A-level maths support</p>
         <h1>Simple, patient maths tutoring.</h1>
         <p className="hero-text">
-          Private lessons in London and online for students who want clearer explanations,
+          Private lessons in Islington/Hackney and online for students who want clearer explanations,
           steadier practice and more confidence.
         </p>
         <div className="hero-actions">
@@ -129,7 +130,7 @@ function Home({ enquiryHref }) {
       </div>
 
       <div className="hero-visual" aria-label="Maths tutoring desk scene">
-        <img src="/assets/friendly-maths-landing.png" alt="" />
+        <img src={landingImage} alt="" />
       </div>
     </section>
   );
@@ -163,7 +164,7 @@ function Details() {
         <h2>Tuition details</h2>
         <p>
           Tuition is £50 per hour. The first introductory meeting is free. Lessons are
-          available online and in London.
+          available online and in Islington/Hackney.
         </p>
       </aside>
     </section>
