@@ -208,6 +208,7 @@ p {
   border-radius: 8px;
   font-weight: 900;
   text-align: center;
+  cursor: pointer;
 }
 
 .button.primary {
@@ -217,6 +218,11 @@ p {
 
 .button.primary:hover {
   background: var(--green-dark);
+}
+
+.button:disabled {
+  cursor: wait;
+  opacity: 0.72;
 }
 
 .button.secondary {
@@ -325,9 +331,10 @@ p {
 
 .contact-card {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 16px;
   align-items: center;
+  scroll-margin-top: 88px;
 }
 
 .contact-card svg {
@@ -336,6 +343,56 @@ p {
 
 .contact-card p {
   margin: 8px 0 0;
+}
+
+.contact-form {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.contact-form label {
+  color: var(--ink);
+  font-size: 0.92rem;
+  font-weight: 900;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  background: #ffffff;
+}
+
+.contact-form textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: var(--green);
+  outline: 3px solid rgba(40, 113, 95, 0.18);
+}
+
+.contact-form .button {
+  justify-self: start;
+  margin-top: 6px;
+}
+
+.form-status {
+  margin: 0;
+  color: var(--green-dark);
+  font-weight: 800;
+}
+
+.honeypot {
+  display: none;
 }
 
 footer {
@@ -403,7 +460,8 @@ footer {
 
   .hero-actions,
   .hero-actions .button,
-  .contact-card .button {
+  .contact-card .button,
+  .contact-form .button {
     width: 100%;
   }
 

@@ -4,7 +4,6 @@ import {
   ArrowRight,
   BookOpen,
   CheckCircle2,
-  Mail,
   Menu,
   Phone,
   Sigma,
@@ -49,14 +48,13 @@ const process = [
 
 function App() {
   const [menuOpen, setMenuOpen] = React.useState(false);
-
-  const enquiryHref = `mailto:${contact.email}?subject=${encodeURIComponent(
-    "Maths tutoring enquiry",
-  )}&body=${encodeURIComponent(
-    "Hello Ofer,\n\nI am interested in maths tutoring.\n\nStudent year group:\nMain topic or goal:\nOnline or Islington/Hackney in-person:\nPreferred times:\n\nThanks,",
-  )}`;
+  const [returnTarget, setReturnTarget] = React.useState("top");
 
   const closeMenu = () => setMenuOpen(false);
+  const openContactFrom = (target) => {
+    setReturnTarget(target);
+    window.location.hash = "contact";
+  };
 
   return (
     <main>
@@ -94,10 +92,10 @@ function App() {
         </nav>
       </header>
 
-      <Home enquiryHref={enquiryHref} />
+      <Home openContactFrom={openContactFrom} />
       <Details />
-      <Process enquiryHref={enquiryHref} />
-      <About enquiryHref={enquiryHref} />
+      <Process openContactFrom={openContactFrom} />
+      <About returnTarget={returnTarget} />
 
       <footer>
         <span>Ofer Guez Maths Tutoring</span>
@@ -107,7 +105,7 @@ function App() {
   );
 }
 
-function Home({ enquiryHref }) {
+function Home({ openContactFrom }) {
   return (
     <section className="hero page-shell" id="top">
       <div className="hero-copy">
@@ -118,10 +116,9 @@ function Home({ enquiryHref }) {
           steadier practice and more confidence.
         </p>
         <div className="hero-actions">
-          <a className="button primary" href={enquiryHref}>
-            <Mail size={18} />
+          <button className="button primary" type="button" onClick={() => openContactFrom("top")}>
             Enquire
-          </a>
+          </button>
           <a className="button secondary" href="#details">
             Details
             <ArrowRight size={18} />
@@ -171,7 +168,7 @@ function Details() {
   );
 }
 
-function Process({ enquiryHref }) {
+function Process({ openContactFrom }) {
   return (
     <section className="page-shell detail-page" id="process">
       <div className="page-heading">
@@ -200,16 +197,15 @@ function Process({ enquiryHref }) {
             The first introductory meeting is free. Regular tuition is £50 per hour.
           </p>
         </div>
-        <a className="button primary" href={enquiryHref}>
-          <Mail size={18} />
+        <button className="button primary" type="button" onClick={() => openContactFrom("process")}>
           Ask about times
-        </a>
+        </button>
       </div>
     </section>
   );
 }
 
-function About({ enquiryHref }) {
+function About({ returnTarget }) {
   return (
     <section className="page-shell detail-page about-page" id="about">
       <div className="page-heading">
@@ -236,7 +232,7 @@ function About({ enquiryHref }) {
         </p>
       </div>
 
-      <div className="contact-card">
+      <div className="contact-card" id="contact">
         <Phone size={24} />
         <div>
           <h2>Contact</h2>
@@ -244,12 +240,83 @@ function About({ enquiryHref }) {
             {contact.phone} · {contact.email}
           </p>
         </div>
-        <a className="button primary" href={enquiryHref}>
-          <Mail size={18} />
-          Enquire
-        </a>
+        <ContactForm returnTarget={returnTarget} />
       </div>
     </section>
+  );
+}
+
+function ContactForm({ returnTarget }) {
+  const [status, setStatus] = React.useState("");
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setStatus("");
+    setIsSubmitting(true);
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Form submission failed");
+      }
+
+      form.reset();
+      setStatus("Enquiry sent. Returning you to where you were.");
+      window.setTimeout(() => {
+        document.getElementById(returnTarget)?.scrollIntoView({ behavior: "smooth" });
+      }, 900);
+    } catch {
+      setStatus(`Something went wrong. Please email ${contact.email}.`);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <form
+      className="contact-form"
+      action="https://formspree.io/f/mykdnwpp"
+      method="POST"
+      onSubmit={handleSubmit}
+    >
+          <label htmlFor="enquiryName">Name</label>
+          <input id="enquiryName" name="name" type="text" required />
+
+          <label htmlFor="enquiryEmail">Email</label>
+          <input id="enquiryEmail" name="email" type="email" required />
+
+          <label htmlFor="enquiryMessage">Message</label>
+          <textarea
+            id="enquiryMessage"
+            name="message"
+            rows="5"
+            placeholder="Student year group, main topic or goal, online or Islington/Hackney in-person, and preferred times."
+            required
+          />
+
+          <input type="hidden" name="_subject" value="Friendly Maths enquiry" />
+          <input type="text" name="_gotcha" className="honeypot" tabIndex="-1" autoComplete="off" />
+
+      <button className="button primary" type="submit" disabled={isSubmitting}>
+        {isSubmitting ? "Sending..." : "Send enquiry"}
+      </button>
+      {status && (
+        <p className="form-status" aria-live="polite">
+          {status}
+        </p>
+      )}
+    </form>
   );
 }
 
