@@ -61,7 +61,7 @@ function App() {
       <header className="site-header">
         <a className="brand" href="#top" aria-label="Ofer Guez home" onClick={closeMenu}>
           <span className="brand-mark">
-            <Sigma size={24} strokeWidth={2.4} />
+            <Sigma size={32} strokeWidth={2.4} />
           </span>
           <span>
             <strong>Ofer Guez</strong>
