@@ -605,18 +605,25 @@ footer {
 
 @media (max-width: 680px) {
   .site-header {
-    min-height: auto;
-    flex-wrap: wrap;
-    padding: 8px clamp(16px, 5vw, 64px);
+    min-height: 72px;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
   }
 
   .menu-toggle {
     display: inline-grid;
+    order: -1;
   }
 
   .brand {
-    flex-basis: 100%;
-    margin-bottom: 8px;
+    flex: 1;
+    margin-left: 8px;
+  }
+
+  .header-controls {
+    flex-direction: row;
+    gap: 8px;
+    margin-left: auto;
   }
 
   .brand-copy {
@@ -628,9 +635,9 @@ footer {
   }
 
   .brand strong,
-  .brand small,
-  .brand-copy span {
+  .brand small {
     line-height: 1.2;
+    font-size: 1.1rem;
   }
 
   .brand-copy span {
@@ -639,7 +646,7 @@ footer {
 
   .nav-links {
     position: absolute;
-    top: 68px;
+    top: 72px;
     right: 16px;
     left: 16px;
     display: none;
@@ -682,12 +689,6 @@ footer {
 
   .contact-card {
     grid-template-columns: 1fr;
-  }
-
-  .header-controls {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
   }
 
   .theme-selector {
