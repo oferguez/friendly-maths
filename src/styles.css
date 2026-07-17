@@ -605,11 +605,36 @@ footer {
 
 @media (max-width: 680px) {
   .site-header {
-    min-height: 68px;
+    min-height: auto;
+    flex-wrap: wrap;
+    padding: 8px clamp(16px, 5vw, 64px);
   }
 
   .menu-toggle {
     display: inline-grid;
+  }
+
+  .brand {
+    flex-basis: 100%;
+    margin-bottom: 8px;
+  }
+
+  .brand-copy {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    gap: 2px;
+    line-height: normal;
+  }
+
+  .brand strong,
+  .brand small,
+  .brand-copy span {
+    line-height: 1.2;
+  }
+
+  .brand-copy span {
+    display: none;
   }
 
   .nav-links {
