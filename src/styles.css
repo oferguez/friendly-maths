@@ -565,6 +565,14 @@ p {
   font-weight: 800;
 }
 
+.form-status.error {
+  color: var(--ink);
+}
+
+.form-status.error strong {
+  color: #b42318;
+}
+
 .honeypot {
   display: none;
 }

@@ -22,6 +22,7 @@ const pages = [
   { id: "details", label: "Details" },
   { id: "process", label: "Process" },
   { id: "about", label: "About" },
+  { id: "contact", label: "Contact" },
 ];
 
 const detailItems = [
@@ -60,6 +61,28 @@ const themes = [
 ];
 
 const defaultThemeId = themes[0].id;
+
+async function getFormErrorMessage(response) {
+  const fallback = `Something went wrong. Please email ${contact.email}.`;
+
+  try {
+    const contentType = response.headers.get("content-type") || "";
+
+    if (contentType.includes("application/json")) {
+      const data = await response.json();
+      const errorMessages = Array.isArray(data.errors)
+        ? data.errors.map((error) => error.message || error.field).filter(Boolean)
+        : [];
+
+      return errorMessages.join(" ") || data.message || data.error || fallback;
+    }
+
+    const message = await response.text();
+    return message.trim() || fallback;
+  } catch {
+    return fallback;
+  }
+}
 
 function App() {
   const [menuOpen, setMenuOpen] = React.useState(false);
@@ -313,11 +336,13 @@ function About({ returnTarget }) {
 
 function ContactForm({ returnTarget }) {
   const [status, setStatus] = React.useState("");
+  const [isError, setIsError] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setStatus("");
+    setIsError(false);
     setIsSubmitting(true);
 
     const form = event.currentTarget;
@@ -333,16 +358,20 @@ function ContactForm({ returnTarget }) {
       });
 
       if (!response.ok) {
-        throw new Error("Form submission failed");
+        setStatus(await getFormErrorMessage(response));
+        setIsError(true);
+        return;
       }
 
       form.reset();
+      setIsError(false);
       setStatus("Enquiry sent. Returning you to where you were.");
       window.setTimeout(() => {
         document.getElementById(returnTarget)?.scrollIntoView({ behavior: "smooth" });
       }, 900);
-    } catch {
-      setStatus(`Something went wrong. Please email ${contact.email}.`);
+    } catch (error) {
+      setStatus(error.message || `Something went wrong. Please email ${contact.email}.`);
+      setIsError(true);
     } finally {
       setIsSubmitting(false);
     }
@@ -377,7 +406,8 @@ function ContactForm({ returnTarget }) {
         {isSubmitting ? "Sending..." : "Send enquiry"}
       </button>
       {status && (
-        <p className="form-status" aria-live="polite">
+        <p className={isError ? "form-status error" : "form-status"} aria-live="polite">
+          {isError && <strong>error sending mail: </strong>}
           {status}
         </p>
       )}
