@@ -26,7 +26,7 @@ const pages = [
 
 const detailItems = [
   {
-    title: "GCSE and IGCSE Maths",
+    title: "GCSE, Higher GCSE and IGCSE Maths",
     text: "Clear support with algebra, graphs, number, ratio, geometry and exam-style problem solving.",
   },
   {
@@ -47,30 +47,43 @@ const process = [
 ];
 
 const themes = [
-  { id: "default", emoji: "🎨", label: "Default" },
-  { id: "ocean", emoji: "🌊", label: "Ocean" },
-  { id: "sunset", emoji: "🌅", label: "Sunset" },
-  { id: "forest", emoji: "🌲", label: "Forest" },
-  { id: "midnight", emoji: "🌙", label: "Midnight" },
+  { id: "easy-focus", label: "Easy Focus" },
+  { id: "number-sense", label: "Number Sense" },
+  { id: "calm-geometry", label: "Calm Geometry" },
+  { id: "algebra-spark", label: "Algebra Spark" },
+  { id: "fraction-flow", label: "Fraction Flow" },
+  { id: "graph-glow", label: "Graph Glow" },
+  { id: "proof-peace", label: "Proof Peace" },
+  { id: "times-table", label: "Times Table" },
+  { id: "exam-calm", label: "Exam Calm" },
+  { id: "confidence-curve", label: "Confidence Curve" },
 ];
+
+const defaultThemeId = themes[0].id;
 
 function App() {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [returnTarget, setReturnTarget] = React.useState("top");
-  const [currentTheme, setCurrentTheme] = React.useState("default");
+  const [currentTheme, setCurrentTheme] = React.useState(defaultThemeId);
+  const [themeSelectorOpen, setThemeSelectorOpen] = React.useState(false);
 
   React.useEffect(() => {
-    const savedTheme = localStorage.getItem("maths-theme") || "default";
-    setCurrentTheme(savedTheme);
-    if (savedTheme !== "default") {
-      document.documentElement.setAttribute("data-scheme", savedTheme);
+    const savedTheme = localStorage.getItem("maths-theme");
+    const nextTheme = themes.some((theme) => theme.id === savedTheme) ? savedTheme : defaultThemeId;
+
+    setCurrentTheme(nextTheme);
+    localStorage.setItem("maths-theme", nextTheme);
+    if (nextTheme !== defaultThemeId) {
+      document.documentElement.setAttribute("data-scheme", nextTheme);
+    } else {
+      document.documentElement.removeAttribute("data-scheme");
     }
   }, []);
 
   const handleThemeChange = (themeId) => {
     setCurrentTheme(themeId);
     localStorage.setItem("maths-theme", themeId);
-    if (themeId === "default") {
+    if (themeId === defaultThemeId) {
       document.documentElement.removeAttribute("data-scheme");
     } else {
       document.documentElement.setAttribute("data-scheme", themeId);
@@ -87,29 +100,38 @@ function App() {
     <main>
       <header className="site-header">
         <a className="brand" href="#top" aria-label="Ofer Guez home" onClick={closeMenu}>
-          <span className="brand-mark">
+          <span
+            className="brand-mark"
+            onDoubleClick={(event) => {
+              event.preventDefault();
+              setThemeSelectorOpen((open) => !open);
+            }}
+          >
             <Sigma size={40} strokeWidth={3} />
           </span>
-          <span>
+          <span className="brand-copy">
             <strong>Ofer Guez</strong>
-            <small>Private Maths Tutor</small>
+            <span aria-hidden="true">|</span>
+            <small>Private Maths Tutoring</small>
           </span>
         </a>
 
         <div className="header-controls">
-          <div className="theme-selector" role="group" aria-label="Theme selector">
-            {themes.map((theme) => (
-              <button
-                key={theme.id}
-                className={`theme-button ${currentTheme === theme.id ? "active" : ""}`}
-                onClick={() => handleThemeChange(theme.id)}
-                title={theme.label}
-                aria-pressed={currentTheme === theme.id}
+          {themeSelectorOpen && (
+            <div className="theme-selector">
+              <select
+                aria-label="Colour palette"
+                value={currentTheme}
+                onChange={(event) => handleThemeChange(event.target.value)}
               >
-                {theme.emoji}
-              </button>
-            ))}
-          </div>
+                {themes.map((theme) => (
+                  <option key={theme.id} value={theme.id}>
+                    {theme.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
           <button
             className="icon-button menu-toggle"
