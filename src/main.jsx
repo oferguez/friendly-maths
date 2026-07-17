@@ -46,9 +46,36 @@ const process = [
   "Share clear session notes and exercises so the student can revise before the next meeting.",
 ];
 
+const themes = [
+  { id: "default", emoji: "🎨", label: "Default" },
+  { id: "ocean", emoji: "🌊", label: "Ocean" },
+  { id: "sunset", emoji: "🌅", label: "Sunset" },
+  { id: "forest", emoji: "🌲", label: "Forest" },
+  { id: "midnight", emoji: "🌙", label: "Midnight" },
+];
+
 function App() {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [returnTarget, setReturnTarget] = React.useState("top");
+  const [currentTheme, setCurrentTheme] = React.useState("default");
+
+  React.useEffect(() => {
+    const savedTheme = localStorage.getItem("maths-theme") || "default";
+    setCurrentTheme(savedTheme);
+    if (savedTheme !== "default") {
+      document.documentElement.setAttribute("data-scheme", savedTheme);
+    }
+  }, []);
+
+  const handleThemeChange = (themeId) => {
+    setCurrentTheme(themeId);
+    localStorage.setItem("maths-theme", themeId);
+    if (themeId === "default") {
+      document.documentElement.removeAttribute("data-scheme");
+    } else {
+      document.documentElement.setAttribute("data-scheme", themeId);
+    }
+  };
 
   const closeMenu = () => setMenuOpen(false);
   const openContactFrom = (target) => {
@@ -69,15 +96,31 @@ function App() {
           </span>
         </a>
 
-        <button
-          className="icon-button menu-toggle"
-          type="button"
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          {menuOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        <div className="header-controls">
+          <div className="theme-selector" role="group" aria-label="Theme selector">
+            {themes.map((theme) => (
+              <button
+                key={theme.id}
+                className={`theme-button ${currentTheme === theme.id ? "active" : ""}`}
+                onClick={() => handleThemeChange(theme.id)}
+                title={theme.label}
+                aria-pressed={currentTheme === theme.id}
+              >
+                {theme.emoji}
+              </button>
+            ))}
+          </div>
+
+          <button
+            className="icon-button menu-toggle"
+            type="button"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
 
         <nav className={menuOpen ? "nav-links open" : "nav-links"} aria-label="Main navigation">
           {pages.map((page) => (
