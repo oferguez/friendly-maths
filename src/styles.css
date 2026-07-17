@@ -171,6 +171,10 @@ html[data-scheme="midnight"] .site-header {
   box-shadow: 0 4px 12px rgba(40, 113, 95, 0.25);
 }
 
+.brand strong {
+  font-size: 1.5rem;
+}
+
 .brand strong,
 .brand small {
   display: block;
@@ -180,7 +184,7 @@ html[data-scheme="midnight"] .site-header {
 .brand small {
   margin-top: 2px;
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: 1rem;
 }
 
 .theme-selector {
