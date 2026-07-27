@@ -286,7 +286,7 @@ p {
 }
 
 .brand small {
-  color: var(--muted);
+  color: var(--green-dark);
   font-size: 1.5rem;
   font-weight: 800;
 }
