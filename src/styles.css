@@ -230,16 +230,38 @@ p {
 .icon-button {
   display: inline-grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
+  /* width: 64px;
+  height: 64px; */
   border-radius: 8px;
 }
 
 .brand-mark {
+  --brand-logo-enlargement: 1;
+  --brand-logo-color: var(--green-dark);
+  position: relative;
   flex: 0 0 auto;
+  overflow: hidden;
   color: #ffffff;
   background: var(--green-dark);
   box-shadow: 0 4px 12px rgba(40, 113, 95, 0.25);
+}
+
+.brand-mark::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: var(--brand-logo-color);
+  mask: url("../assets/friendly-maths-logo-lines-mask.png") center / contain no-repeat;
+  transform: scale(var(--brand-logo-enlargement));
+  pointer-events: none;
+}
+
+.brand-logo {
+  display: block;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  transform: scale(var(--brand-logo-enlargement));
 }
 
 .brand-copy {

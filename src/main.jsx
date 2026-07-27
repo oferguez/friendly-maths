@@ -6,10 +6,10 @@ import {
   CheckCircle2,
   Menu,
   Phone,
-  Sigma,
   X,
 } from "lucide-react";
 import landingImage from "../assets/friendly-maths-landing.png";
+import logoImage from "../assets/friendly-maths-logo-mark.png";
 import "./styles.css";
 
 const contact = {
@@ -130,7 +130,7 @@ function App() {
               setThemeSelectorOpen((open) => !open);
             }}
           >
-            <Sigma size={40} strokeWidth={3} />
+            <img className="brand-logo" src={logoImage} alt="" />
           </span>
           <span className="brand-copy">
             <strong>Ofer Guez</strong>
