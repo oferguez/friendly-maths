@@ -259,7 +259,7 @@ function App() {
       </main>
 
       <footer>
-        <span>Ofer Guez Maths Private Tutoring</span>
+        <span>Ofer Guez Private Maths Tutoring</span>
         <PageControls
           nextPage={nextPage}
           previousPage={previousPage}
