@@ -1,6 +1,17 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import {
+  BrowserRouter,
+  Link,
+  NavLink,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import {
+  ArrowLeft,
   ArrowRight,
   BookOpen,
   CheckCircle2,
@@ -19,11 +30,13 @@ const contact = {
 };
 
 const pages = [
-  { id: "details", label: "Details" },
-  { id: "process", label: "Process" },
-  { id: "about", label: "About" },
-  { id: "contact", label: "Contact" },
+  { id: "home", label: "Home", path: "/" },
+  { id: "details", label: "Details", path: "/details" },
+  { id: "process", label: "Process", path: "/process" },
+  { id: "about", label: "About", path: "/about" },
+  { id: "contact", label: "Contact", path: "/contact" },
 ];
+const navigationPages = pages.slice(1);
 
 const detailItems = [
   {
@@ -86,9 +99,19 @@ async function getFormErrorMessage(response) {
 
 function App() {
   const [menuOpen, setMenuOpen] = React.useState(false);
-  const [returnTarget, setReturnTarget] = React.useState("top");
+  const [returnTarget, setReturnTarget] = React.useState("/");
   const [currentTheme, setCurrentTheme] = React.useState(defaultThemeId);
   const [themeSelectorOpen, setThemeSelectorOpen] = React.useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const pageIndex = Math.max(
+    0,
+    pages.findIndex((page) => page.path === location.pathname),
+  );
+  const activePage = pages[pageIndex];
+  const previousPage = pages[pageIndex - 1];
+  const nextPage = pages[pageIndex + 1];
 
   React.useEffect(() => {
     const savedTheme = localStorage.getItem("maths-theme");
@@ -116,13 +139,54 @@ function App() {
   const closeMenu = () => setMenuOpen(false);
   const openContactFrom = (target) => {
     setReturnTarget(target);
-    window.location.hash = "contact";
+    navigate("/contact");
+  };
+  const navigateToPage = (page) => {
+    if (!page) {
+      return;
+    }
+
+    closeMenu();
+    navigate(page.path);
   };
 
+  React.useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+        return;
+      }
+
+      const target = event.target;
+      if (
+        target instanceof HTMLElement &&
+        target.closest("input, textarea, select, button, a, [contenteditable='true']")
+      ) {
+        return;
+      }
+
+      if (event.key === "ArrowRight" || event.key === "PageDown") {
+        if (nextPage) {
+          event.preventDefault();
+          navigate(nextPage.path);
+        }
+      }
+
+      if (event.key === "ArrowLeft" || event.key === "PageUp") {
+        if (previousPage) {
+          event.preventDefault();
+          navigate(previousPage.path);
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [navigate, nextPage, previousPage]);
+
   return (
-    <main>
+    <div className="app-shell">
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="Ofer Guez home" onClick={closeMenu}>
+        <Link className="brand" to="/" aria-label="Ofer Guez home" onClick={closeMenu}>
           <span
             className="brand-mark"
             onDoubleClick={(event) => {
@@ -136,8 +200,10 @@ function App() {
             <strong>Ofer Guez</strong>
             <span aria-hidden="true">|</span>
             <small>Private Maths Tutoring</small>
+            <span aria-hidden="true">|</span>
+            <strong>Islington/Hackney and Online</strong>
           </span>
-        </a>
+        </Link>
 
         <div className="header-controls">
           {themeSelectorOpen && (
@@ -168,28 +234,65 @@ function App() {
         </div>
 
         <nav className={menuOpen ? "nav-links open" : "nav-links"} aria-label="Main navigation">
-          {pages.map((page) => (
-            <a
-              href={`#${page.id}`}
+          {navigationPages.map((page) => (
+            <NavLink
+              className={({ isActive }) => (isActive ? "active" : undefined)}
+              to={page.path}
               key={page.id}
               onClick={closeMenu}
             >
               {page.label}
-            </a>
+            </NavLink>
           ))}
         </nav>
       </header>
 
-      <Home openContactFrom={openContactFrom} />
-      <Details />
-      <Process openContactFrom={openContactFrom} />
-      <About returnTarget={returnTarget} />
+      <main className="page-stage" aria-label={`${activePage.label} page`}>
+        <Routes>
+          <Route path="/" element={<Home openContactFrom={openContactFrom} />} />
+          <Route path="/details" element={<Details />} />
+          <Route path="/process" element={<Process openContactFrom={openContactFrom} />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact returnTarget={returnTarget} />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
 
       <footer>
-        <span>Ofer Guez Maths Tutoring</span>
-        <span>{contact.location}</span>
+        <span>Ofer Guez Maths Private Tutoring</span>
+        <PageControls
+          nextPage={nextPage}
+          previousPage={previousPage}
+          onNavigate={navigateToPage}
+        />
+        <span>{contact.email}</span>
       </footer>
-    </main>
+    </div>
+  );
+}
+
+function PageControls({ nextPage, previousPage, onNavigate }) {
+  return (
+    <div className="page-controls" aria-label="Page controls">
+      <button
+        className="page-nav-button previous"
+        type="button"
+        aria-label={previousPage ? `Previous page: ${previousPage.label}` : "No previous page"}
+        disabled={!previousPage}
+        onClick={() => onNavigate(previousPage)}
+      >
+        <ArrowLeft size={24} />
+      </button>
+      <button
+        className="page-nav-button next"
+        type="button"
+        aria-label={nextPage ? `Next page: ${nextPage.label}` : "No next page"}
+        disabled={!nextPage}
+        onClick={() => onNavigate(nextPage)}
+      >
+        <ArrowRight size={24} />
+      </button>
+    </div>
   );
 }
 
@@ -204,13 +307,13 @@ function Home({ openContactFrom }) {
           steadier practice and more confidence.
         </p>
         <div className="hero-actions">
-          <button className="button primary" type="button" onClick={() => openContactFrom("top")}>
+          <button className="button primary" type="button" onClick={() => openContactFrom("/")}>
             Enquire
           </button>
-          <a className="button secondary" href="#details">
+          <Link className="button secondary" to="/details">
             Details
             <ArrowRight size={18} />
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -285,7 +388,7 @@ function Process({ openContactFrom }) {
             The first introductory meeting is free. Regular tuition is £50 per hour.
           </p>
         </div>
-        <button className="button primary" type="button" onClick={() => openContactFrom("process")}>
+        <button className="button primary" type="button" onClick={() => openContactFrom("/process")}>
           Ask about times
         </button>
       </div>
@@ -293,7 +396,7 @@ function Process({ openContactFrom }) {
   );
 }
 
-function About({ returnTarget }) {
+function About() {
   return (
     <section className="page-shell detail-page about-page" id="about">
       <div className="page-heading">
@@ -319,8 +422,14 @@ function About({ returnTarget }) {
           purpose and feel less stuck when a question changes shape.
         </p>
       </div>
+    </section>
+  );
+}
 
-      <div className="contact-card" id="contact">
+function Contact({ returnTarget }) {
+  return (
+    <section className="page-shell detail-page contact-page" id="contact">
+      <div className="contact-card">
         <Phone size={24} />
         <div>
           <h2>Contact</h2>
@@ -338,6 +447,7 @@ function ContactForm({ returnTarget }) {
   const [status, setStatus] = React.useState("");
   const [isError, setIsError] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -367,7 +477,7 @@ function ContactForm({ returnTarget }) {
       setIsError(false);
       setStatus("Enquiry sent. Returning you to where you were.");
       window.setTimeout(() => {
-        document.getElementById(returnTarget)?.scrollIntoView({ behavior: "smooth" });
+        navigate(returnTarget || "/");
       }, 900);
     } catch (error) {
       setStatus(error.message || `Something went wrong. Please email ${contact.email}.`);
@@ -415,4 +525,12 @@ function ContactForm({ returnTarget }) {
   );
 }
 
-createRoot(document.getElementById("root")).render(<App />);
+const rootElement = document.getElementById("root");
+// Reuse the root during Vite hot reloads to avoid duplicate createRoot warnings.
+const root = rootElement._reactRoot ?? createRoot(rootElement);
+rootElement._reactRoot = root;
+root.render(
+  <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <App />
+  </BrowserRouter>,
+);
