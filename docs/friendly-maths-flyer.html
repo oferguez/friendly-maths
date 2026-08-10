@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Friendly Maths - Private Maths Tutoring</title>
+    <style>
+      @page {
+        margin: 0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 210mm;
+        height: auto;
+        margin: 0;
+      }
+
+      body {
+        color: #243f2d;
+        background: #ffffff;
+        font-family: Arial, Helvetica, sans-serif;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .flyer {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        width: 210mm;
+        height: auto;
+        overflow: hidden;
+        background: #f4fbec;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        gap: 6mm;
+        padding: 8mm 15mm 7mm;
+        border-bottom: 0.5mm solid #d3e9c1;
+        background: #ffffff;
+      }
+
+      .logo {
+        display: block;
+        width: 24mm;
+        height: 24mm;
+        border-radius: 2mm;
+        object-fit: cover;
+      }
+
+      .brand {
+        min-width: 0;
+      }
+
+      .brand-name {
+        margin: 0;
+        color: #17212b;
+        font-size: 9mm;
+        font-weight: 800;
+        line-height: 1;
+      }
+
+      .brand-line {
+        margin: 2mm 0 0;
+        color: #3f7c45;
+        font-size: 4.1mm;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .location {
+        margin: 1.4mm 0 0;
+        color: #5b6d5f;
+        font-size: 4.1mm;
+        font-weight: 800;
+      }
+
+      main {
+        display: grid;
+        align-content: start;
+        gap: 6mm;
+        padding: 8mm 15mm;
+      }
+
+      .intro {
+        max-width: 162mm;
+      }
+
+      .eyebrow {
+        margin: 0 0 3mm;
+        color: #b77a08;
+        font-size: 3.8mm;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 165mm;
+        margin: 0;
+        color: #173d28;
+        font-size: 10mm;
+        line-height: 1.02;
+      }
+
+      .intro-copy {
+        max-width: 154mm;
+        margin: 3.5mm 0 0;
+        color: #52655a;
+        font-size: 5.2mm;
+        line-height: 1.45;
+      }
+
+      .levels {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        border-top: 0.5mm solid #b9dba5;
+        border-bottom: 0.5mm solid #b9dba5;
+        border: 0.5mm solid #b9dba5;
+      }
+
+      .level {
+        min-height: 27mm;
+        padding: 5mm;
+      }
+
+      /* .level + .level {
+        border: 0.5mm solid #b9dba5;
+      } */
+
+      .level h2 {
+        margin: 0;
+        color: #243f2d;
+        font-size: 5mm;
+        line-height: 1.18;
+      }
+
+      .level p {
+        margin: 2.3mm 0 0;
+        color: #5b6d5f;
+        font-size: 3.7mm;
+        line-height: 1.35;
+      }
+
+      .details {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        overflow: hidden;
+        border: 0.5mm solid #83c989;
+        border-radius: 2mm;
+        background: #ffffff;
+      }
+
+      .detail {
+        padding: 4mm 5mm;
+      }
+
+      .detail + .detail {
+        border-left: 0.5mm solid #d3e9c1;
+      }
+
+      .detail strong {
+        display: block;
+        color: #3f7c45;
+        font-size: 5.4mm;
+        line-height: 1.15;
+      }
+
+      .detail span {
+        display: block;
+        margin-top: 1.5mm;
+        color: #5b6d5f;
+        font-size: 3.5mm;
+        line-height: 1.3;
+      }
+
+      .credentials {
+        margin: 0;
+        color: #52655a;
+        font-size: 5.7mm;
+        font-weight: 700;
+        line-height: 1.4;
+        text-align: center;
+      }
+
+      .credentials-group {
+        display: grid;
+        gap: 1.5mm;
+      }
+
+      footer {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 10mm;
+        padding: 7mm 15mm;
+        color: #ffffff;
+        background: #3f7c45;
+      }
+
+      .call-to-action h2 {
+        margin: 0;
+        color: #ffffff;
+        font-size: 7mm;
+        line-height: 1.1;
+      }
+
+      .call-to-action > p {
+        margin: 2.5mm 0 0;
+        color: #ffffff;
+        font-size: 4mm;
+        line-height: 1.35;
+      }
+
+      .contact {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2.5mm 7mm;
+        margin-top: 4mm;
+        color: #ffffff;
+        font-size: 4.2mm;
+        font-weight: 800;
+      }
+
+      .qr {
+        display: block;
+        width: 29mm;
+        height: 29mm;
+        padding: 1.5mm;
+        background: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <article class="flyer">
+      <header>
+        <img class="logo" src="../assets/friendly-maths-logo-mark.png" alt="" />
+        <div class="brand">
+          <p class="brand-name">Ofer Guez</p>
+          <p class="brand-line">Private Maths Tutoring</p>
+          <p class="location">Islington / Hackney and online</p>
+        </div>
+      </header>
+
+      <main>
+        <section class="intro">
+          <h1>Understanding maths rather than memorising methods.</h1>
+          <p class="intro-copy">
+            Patient, clear tuition that fills gaps, builds confidence and develops real
+            understanding.
+          </p>
+        </section>
+
+        <section class="levels" aria-label="Tuition levels">
+          <div class="level">
+            <h2>GCSE Maths</h2>
+            <p>Foundation and Higher tier</p>
+          </div>
+          <div class="level">
+            <h2>A-level Maths</h2>
+            <p>Year 12 and Year 13</p>
+          </div>
+          <div class="level">
+            <h2>KS2 and KS3</h2>
+            <p>Strong foundations and confidence</p>
+          </div>
+        </section>
+
+        <section class="details" aria-label="Lesson details">
+          <div class="detail">
+            <strong>&pound;50</strong>
+            <span>per one-hour lesson</span>
+          </div>
+          <div class="detail">
+            <strong>Flexible</strong>
+            <span>online or in person</span>
+          </div>
+          <div class="detail">
+            <strong>First meeting free</strong>
+            <span>30 minutes to talk and try some maths</span>
+          </div>
+        </section>
+
+        <div class="credentials-group">
+          <p class="credentials">
+            BSc Mathematics and Computer Science &nbsp;|&nbsp; MA Philosophy
+          </p>
+          <p class="credentials">Years of maths tutoring experience</p>
+        </div>
+      </main>
+
+      <footer>
+        <div class="call-to-action">
+          <h2>Get in touch</h2>
+          <p>Arrange a free introductory meeting.</p>
+          <div class="contact">
+            <span>07942 740306</span>
+            <span>guez.ofer@gmail.com</span>
+            <span>friendly-maths.com</span>
+          </div>
+        </div>
+        <img class="qr" src="friendly-maths-qr.png" alt="QR code for friendly-maths.com" />
+      </footer>
+    </article>
+  </body>
+</html>
