@@ -1192,6 +1192,10 @@ footer {
     font-size: 1.3rem;
   }
 
+  #details .page-heading .eyebrow {
+    margin-bottom: 10px;
+  }
+
   #details .page-heading p {
     margin-top: 4px;
     font-size: 0.8rem;
