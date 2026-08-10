@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://oferguez.github.io/friendly-maths/</loc>
-    <lastmod>2026-08-09</lastmod>
+    <loc>https://oferguez.net/</loc>
+    <lastmod>2026-08-10</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://oferguez.github.io/friendly-maths/details</loc>
-    <lastmod>2026-08-09</lastmod>
+    <loc>https://oferguez.net/details</loc>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://oferguez.github.io/friendly-maths/process</loc>
-    <lastmod>2026-08-09</lastmod>
+    <loc>https://oferguez.net/process</loc>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://oferguez.github.io/friendly-maths/about</loc>
-    <lastmod>2026-08-09</lastmod>
+    <loc>https://oferguez.net/resources</loc>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://oferguez.github.io/friendly-maths/contact</loc>
-    <lastmod>2026-08-09</lastmod>
+    <loc>https://oferguez.net/about</loc>
+    <lastmod>2026-08-10</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://oferguez.net/contact</loc>
+    <lastmod>2026-08-10</lastmod>
     <priority>1.0</priority>
   </url>
 </urlset>

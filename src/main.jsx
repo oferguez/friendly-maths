@@ -15,6 +15,7 @@ import {
   ArrowRight,
   BookOpen,
   CheckCircle2,
+  ExternalLink,
   Menu,
   Phone,
   X,
@@ -30,27 +31,77 @@ const contact = {
 };
 
 const pages = [
-  { id: "home", label: "Home", path: "/" },
-  { id: "details", label: "Details", path: "/details" },
-  { id: "process", label: "Process", path: "/process" },
-  { id: "about", label: "About", path: "/about" },
-  { id: "contact", label: "Contact", path: "/contact" },
+  {
+    id: "home",
+    label: "Home",
+    path: "/",
+    title: "Maths Tutor in Islington & Hackney | Ofer Guez",
+    description:
+      "Patient GCSE maths tutoring in Islington and Hackney, with online support for GCSE, KS2/KS3 foundations and A-level Maths.",
+  },
+  {
+    id: "details",
+    label: "Details",
+    path: "/details",
+    title: "GCSE Maths Tutoring | Ofer Guez",
+    description:
+      "GCSE Maths tutoring for Foundation and Higher tier, plus KS2/KS3 foundations and A-level Maths in Islington, Hackney and online.",
+  },
+  {
+    id: "process",
+    label: "Process",
+    path: "/process",
+    title: "How Maths Tutoring Works | Ofer Guez",
+    description:
+      "See how calm, practical maths tutoring combines clear explanations, guided practice, independent work and useful revision notes.",
+  },
+  {
+    id: "resources",
+    label: "Resources",
+    path: "/resources",
+    title: "Maths Resources and Tools | Ofer Guez",
+    description:
+      "Useful online calculators, graphing, geometry and maths tools for pupils studying GCSE and A-level Maths.",
+  },
+  {
+    id: "about",
+    label: "About",
+    path: "/about",
+    title: "About Ofer Guez | Maths Tutor in Islington",
+    description:
+      "Meet Ofer Guez, a maths tutor in Islington with a BSc in Mathematics and Computer Science, an MA in Philosophy and an enhanced DBS certificate.",
+  },
+  {
+    id: "contact",
+    label: "Contact",
+    path: "/contact",
+    title: "Contact Ofer Guez | Maths Tutor",
+    description:
+      "Contact Ofer Guez about GCSE Maths, A-level Maths or online maths tutoring in Islington and Hackney, and arrange a free introductory meeting.",
+  },
 ];
-const navigationPages = pages.slice(1);
+const navigationPages = pages;
+const siteUrl = "https://oferguez.net";
 
 const detailItems = [
   {
-    title: "GCSE, Higher GCSE and IGCSE Maths",
-    text: "Clear support with algebra, graphs, number, ratio, geometry and exam-style problem solving.",
+    title: "GCSE Maths — Foundation and Higher",
+    text: "Foundation and Higher tier topics and exam questions.",
   },
   {
     title: "A-level Maths",
-    text: "Structured help for Year 12 and Year 13 topics, with attention to method, fluency and exam technique.",
+    text: "Year 12 and Year 13 topics, fluency and exam technique.",
   },
   {
     title: "KS2 and KS3 Foundations",
-    text: "Patient lessons for younger learners who need stronger basics, better habits and more confidence.",
+    text: "Stronger foundations, working habits and confidence.",
   },
+];
+
+const audienceItems = [
+  "Cover earlier gaps and build confidence through practice",
+  "Want to understand maths rather than memorise methods",
+  "More guided practice or exam technique would help",
 ];
 
 const process = [
@@ -58,6 +109,14 @@ const process = [
   "Explain the idea plainly, then work through examples together.",
   "Practise independently with guidance and quick feedback.",
   "Share clear session notes and exercises so the student can revise before the next meeting.",
+];
+
+const resources = [
+  { name: "Wolfram Alpha", url: "https://www.wolframalpha.com/input" },
+  { name: "Desmos calculator", url: "https://www.desmos.com/calculator" },
+  { name: "Desmos Geometry", url: "https://www.desmos.com/geometry/9hidw4hpw2" },
+  { name: "GeoGebra", url: "https://www.geogebra.org/classic/zzd8sxve" },
+  { name: "Matcha", url: "https://www.mathcha.io/" },
 ];
 
 const themes = [
@@ -102,6 +161,10 @@ function App() {
   const [returnTarget, setReturnTarget] = React.useState("/");
   const [currentTheme, setCurrentTheme] = React.useState(defaultThemeId);
   const [themeSelectorOpen, setThemeSelectorOpen] = React.useState(false);
+  const wheelDeltaRef = React.useRef(0);
+  const wheelLockRef = React.useRef(false);
+  const wheelLockTimeoutRef = React.useRef();
+  const wheelResetTimeoutRef = React.useRef();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -112,6 +175,16 @@ function App() {
   const activePage = pages[pageIndex];
   const previousPage = pages[pageIndex - 1];
   const nextPage = pages[pageIndex + 1];
+
+  React.useEffect(() => {
+    document.title = activePage.title;
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute("content", activePage.description);
+    document
+      .querySelector('link[rel="canonical"]')
+      ?.setAttribute("href", new URL(activePage.path, siteUrl).href);
+  }, [activePage]);
 
   React.useEffect(() => {
     const savedTheme = localStorage.getItem("maths-theme");
@@ -183,6 +256,75 @@ function App() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [navigate, nextPage, previousPage]);
 
+  React.useEffect(() => {
+    document.querySelector(".page-stage")?.scrollTo({ top: 0 });
+  }, [location.pathname]);
+
+  React.useEffect(() => {
+    const handleWheel = (event) => {
+      const target = event.target;
+      if (
+        event.ctrlKey ||
+        menuOpen ||
+        (target instanceof HTMLElement &&
+          target.closest("input, textarea, select, [contenteditable='true']"))
+      ) {
+        return;
+      }
+
+      const stage = document.querySelector(".page-stage");
+      const atTop = !stage || stage.scrollTop <= 1;
+      const atBottom =
+        !stage || stage.scrollTop + stage.clientHeight >= stage.scrollHeight - 1;
+
+      if ((event.deltaY > 0 && !atBottom) || (event.deltaY < 0 && !atTop)) {
+        wheelDeltaRef.current = 0;
+        return;
+      }
+
+      if (wheelLockRef.current) {
+        event.preventDefault();
+        return;
+      }
+
+      wheelDeltaRef.current += event.deltaY;
+      window.clearTimeout(wheelResetTimeoutRef.current);
+      wheelResetTimeoutRef.current = window.setTimeout(() => {
+        wheelDeltaRef.current = 0;
+      }, 120);
+
+      if (Math.abs(wheelDeltaRef.current) < 40) {
+        event.preventDefault();
+        return;
+      }
+
+      const destination = wheelDeltaRef.current > 0 ? nextPage : previousPage;
+      wheelDeltaRef.current = 0;
+      if (!destination) {
+        return;
+      }
+
+      event.preventDefault();
+      wheelLockRef.current = true;
+      setMenuOpen(false);
+      navigate(destination.path);
+      wheelLockTimeoutRef.current = window.setTimeout(() => {
+        wheelLockRef.current = false;
+      }, 650);
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, [menuOpen, navigate, nextPage, previousPage]);
+
+  React.useEffect(
+    () => () => {
+      window.clearTimeout(wheelLockTimeoutRef.current);
+      window.clearTimeout(wheelResetTimeoutRef.current);
+    },
+    [],
+  );
+
   return (
     <div className="app-shell">
       <header className="site-header">
@@ -252,6 +394,7 @@ function App() {
           <Route path="/" element={<Home openContactFrom={openContactFrom} />} />
           <Route path="/details" element={<Details />} />
           <Route path="/process" element={<Process openContactFrom={openContactFrom} />} />
+          <Route path="/resources" element={<Resources />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact returnTarget={returnTarget} />} />
           <Route path="*" element={<Navigate to="/" replace />} />
@@ -300,11 +443,12 @@ function Home({ openContactFrom }) {
   return (
     <section className="hero page-shell" id="top">
       <div className="hero-copy">
-        <p className="eyebrow">GCSE and A-level maths support</p>
-        <h1>Simple, patient maths tutoring.</h1>
+        <p className="eyebrow">Calm, guided maths tutoring</p>
+        <h1>Understand maths, not just the method.</h1>
         <p className="hero-text">
-          Private lessons in Islington/Hackney and online for students who want clearer explanations,
-          steadier practice and more confidence.
+          GCSE maths tutoring in Islington/Hackney and online, plus KS2/KS3 foundations
+          and A-level support. Clear explanations and guided practice build understanding
+          and confidence when a question changes shape.
         </p>
         <div className="hero-actions">
           <button className="button primary" type="button" onClick={() => openContactFrom("/")}>
@@ -327,12 +471,20 @@ function Home({ openContactFrom }) {
 function Details() {
   return (
     <section className="page-shell detail-page" id="details">
+      <section className="audience" aria-labelledby="audience-heading">
+        <h2 className="eyebrow" id="audience-heading">Who this is for</h2>
+        <ul>
+          {audienceItems.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </section>
+
       <div className="page-heading">
         <p className="eyebrow">Details</p>
         <h1>Support for school maths.</h1>
         <p>
-          Lessons are adapted to the student's level, current school work and upcoming
-          assessments.
+          Lessons follow the pupil's level, school work and goals.
         </p>
       </div>
 
@@ -351,10 +503,11 @@ function Details() {
       <aside className="details-box" aria-label="Tuition details">
         <h2>Tuition details</h2>
         <p>
-          Tuition is £50 per hour. The first introductory meeting is free. Lessons are
-          available online and in Islington/Hackney.
+          £50 per hour, online or in Islington/Hackney. The first 30-minute meeting is
+          free: the pupil attends, parents are welcome, and we try some maths together.
         </p>
       </aside>
+
     </section>
   );
 }
@@ -385,7 +538,8 @@ function Process({ openContactFrom }) {
         <div>
           <h2>Introductory meeting</h2>
           <p>
-            The first introductory meeting is free. Regular tuition is £50 per hour.
+            Free 30-minute first meeting: discuss priorities and try some maths together.
+            Regular tuition is £50 per hour.
           </p>
         </div>
         <button className="button primary" type="button" onClick={() => openContactFrom("/process")}>
@@ -396,30 +550,58 @@ function Process({ openContactFrom }) {
   );
 }
 
+function Resources() {
+  return (
+    <section className="page-shell detail-page resources-page" id="resources">
+      <div className="page-heading">
+        <p className="eyebrow">Resources</p>
+        <h1>Useful maths tools.</h1>
+        <p>Calculators, graphing and geometry tools for practice and exploration.</p>
+      </div>
+
+      <div className="resource-list">
+        {resources.map((resource) => (
+          <a
+            className="resource-link"
+            href={resource.url}
+            target="_blank"
+            rel="noreferrer"
+            key={resource.name}
+          >
+            <span>{resource.name}</span>
+            <ExternalLink size={20} aria-hidden="true" />
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function About() {
   return (
     <section className="page-shell detail-page about-page" id="about">
       <div className="page-heading">
         <p className="eyebrow">About</p>
-        <h1>Maths, computing and clear explanations.</h1>
+        <h1>Helping maths make sense.</h1>
       </div>
 
       <div className="about-copy">
         <p>
-          Ofer has a BSc in Mathematics and Computer Science from Tel Aviv
-          University and a professional background building complex .NET/C# software
-          systems.
+          I enjoy working with pupils who feel they "should" understand something but do
+          not yet see why. A different explanation, diagram or carefully chosen example
+          often unlocks it.
         </p>
         <p>
-          His tutoring experience includes Action Tutoring, GCSE pupils, A-level
-          maths support and mentoring student coding projects.
+          Lessons are calm and practical: explain clearly, work together, then practise
+          independently. Years as a software developer taught me to break complex problems
+          into understandable steps.
         </p>
         <p>
-          Ofer also holds an enhanced DBS certificate, currently under renewal.
-        </p>
-        <p>
-          The aim is practical: help students understand the material, practise with
-          purpose and feel less stuck when a question changes shape.
+          I have a BSc in Mathematics and Computer Science from Tel Aviv University and
+          an MA in Philosophy, with experience across Action Tutoring, GCSE and A-level
+          maths, and coding mentorship. I hold an enhanced DBS certificate, currently under
+          renewal. My aim is to help pupils understand, practise with purpose and stay
+          confident when a question changes shape.
         </p>
       </div>
     </section>
@@ -435,6 +617,9 @@ function Contact({ returnTarget }) {
           <h2>Contact</h2>
           <p>
             {contact.phone} · {contact.email}
+          </p>
+          <p>
+            Get in touch and we can arrange a free introductory meeting.
           </p>
         </div>
         <ContactForm returnTarget={returnTarget} />
@@ -504,8 +689,8 @@ function ContactForm({ returnTarget }) {
           <textarea
             id="enquiryMessage"
             name="message"
-            rows="5"
-            placeholder="Student year group, main topic or goal, online or Islington/Hackney in-person, and preferred times."
+            rows="3"
+            placeholder="Student year group, main topic or goal, online or in person location, and preferred times."
             required
           />
 

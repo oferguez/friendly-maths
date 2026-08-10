@@ -167,6 +167,7 @@ body {
 
 .app-shell {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto minmax(0, 1fr) auto;
   height: 100svh;
   overflow: hidden;
@@ -380,15 +381,13 @@ p {
 
 .page-shell {
   width: min(1120px, 100%);
-  height: 100%;
+  min-height: 100%;
   margin: 0 auto;
-  min-height: 0;
-  overflow: hidden;
   padding: var(--section-block-padding) clamp(58px, 7vw, 72px);
 }
 
 .hero {
-  min-height: 0;
+  min-height: 100%;
 }
 
 .hero {
@@ -406,6 +405,15 @@ p {
 .hero-copy,
 .page-heading {
   max-width: 720px;
+}
+
+.hero-copy {
+  min-width: 0;
+}
+
+.hero h1 {
+  font-size: clamp(2.35rem, 5vw, 4rem);
+  overflow-wrap: normal;
 }
 
 .eyebrow {
@@ -453,6 +461,7 @@ p {
 }
 
 .button.primary:hover {
+  color: var(--ink);
   background: var(--blue);
   box-shadow: 0 6px 16px rgba(40, 113, 95, 0.3);
 }
@@ -535,19 +544,33 @@ p {
   align-items: center;
 }
 
-#details .page-heading,
+#details .page-heading {
+  grid-column: 1;
+  grid-row: 2;
+}
+
 #details .details-box {
   grid-column: 1;
+  grid-row: 3;
 }
 
 #details .level-list {
   grid-column: 2;
-  grid-row: 1 / span 2;
+  grid-row: 2 / span 2;
+}
+
+#details .audience {
+  grid-column: 1 / -1;
+  grid-row: 1;
 }
 
 #about.detail-page {
   grid-template-columns: minmax(0, 760px);
   align-items: center;
+}
+
+#resources.detail-page {
+  grid-template-columns: minmax(0, 760px);
 }
 
 #about .page-heading {
@@ -615,6 +638,36 @@ p {
   margin: 16px 0 0;
 }
 
+.resource-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+
+.resource-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 54px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  background: #ffffff;
+  font-weight: 800;
+}
+
+.resource-link:hover {
+  color: var(--green-dark);
+  border-color: var(--green);
+}
+
+.resource-link svg {
+  flex: 0 0 auto;
+  color: var(--accent);
+}
+
 .about-copy {
   display: grid;
   gap: 14px;
@@ -642,9 +695,42 @@ p {
   margin: 10px 0 0;
 }
 
+.audience {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.audience .eyebrow {
+  margin: 0;
+  font-size: clamp(1.04rem, 2vw, 1.2rem);
+}
+
+.audience ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 0;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+  list-style: none;
+}
+
+.audience li {
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
 .contact-card {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 16px;
   align-items: center;
 }
@@ -742,10 +828,31 @@ footer {
   font-weight: 700;
 }
 
+@media (min-width: 1451px) and (max-width: 1600px) {
+  .site-header {
+    padding-inline: 40px;
+  }
+
+  .brand strong,
+  .brand small {
+    font-size: 1.38rem;
+  }
+
+  .nav-links {
+    gap: 14px;
+  }
+}
+
+@media (max-width: 680px), (max-height: 680px) {
+  .page-stage {
+    overflow-y: auto;
+  }
+}
+
 
 @media (max-height: 820px) {
   :root {
-    --section-block-padding: clamp(16px, 4svh, 32px);
+    --section-block-padding: clamp(16px, 2.5svh, 24px);
   }
 
   .page-heading h1 {
@@ -777,7 +884,7 @@ footer {
     min-height: 76px;
   }
 }
-@media (max-width: 1300px) {
+@media (max-width: 1450px) {
   :root {
     --header-height: 76px;
     --footer-height: 48px;
@@ -912,7 +1019,7 @@ footer {
   }
 }
 
-@media (min-width: 901px) and (max-width: 1300px) {
+@media (min-width: 901px) and (max-width: 1450px) {
   .hero {
     grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.8fr);
   }
@@ -1022,6 +1129,10 @@ footer {
     max-height: clamp(150px, 24svh, 220px);
   }
 
+  .hero h1 {
+    font-size: 1.7rem;
+  }
+
   .hero-actions,
   .hero-actions .button,
   .contact-card .button,
@@ -1035,14 +1146,86 @@ footer {
     align-content: center;
   }
 
+  #details.detail-page {
+    gap: 10px;
+    padding-block: 12px;
+  }
+
   #details .page-heading,
   #details .details-box,
   #details .level-list,
+  #details .audience,
   #about .page-heading,
   #about .about-copy,
   #about .contact-card {
     grid-column: 1;
     grid-row: auto;
+  }
+
+  .audience {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding-bottom: 12px;
+  }
+
+  .audience ul {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  #details .audience {
+    gap: 6px;
+    padding-bottom: 6px;
+  }
+
+  #details .audience .eyebrow {
+    font-size: 0.9rem;
+  }
+
+  #details .audience li {
+    padding: 7px 10px;
+    font-size: 0.82rem;
+    line-height: 1.2;
+  }
+
+  #details .page-heading h1 {
+    font-size: 1.3rem;
+  }
+
+  #details .page-heading p {
+    margin-top: 4px;
+    font-size: 0.8rem;
+    line-height: 1.2;
+  }
+
+  #details .level-list {
+    gap: 5px;
+  }
+
+  #details .level-row {
+    padding: 7px 9px;
+  }
+
+  #details .level-row h2,
+  #details .details-box h2 {
+    font-size: 0.86rem;
+    line-height: 1.15;
+  }
+
+  #details .level-row p {
+    margin-top: 3px;
+    font-size: 0.76rem;
+    line-height: 1.18;
+  }
+
+  #details .details-box {
+    padding: 8px 10px;
+  }
+
+  #details .details-box p {
+    margin-top: 3px;
+    font-size: 0.75rem;
+    line-height: 1.18;
   }
 
   .level-list,
@@ -1073,6 +1256,16 @@ footer {
   .process-list {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+
+  .resource-list {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .resource-link {
+    min-height: 54px;
+    padding: 12px 14px;
   }
 
   .process-list li {
@@ -1180,10 +1373,6 @@ footer {
     gap: 8px;
   }
 
-  .hero h1 {
-    font-size: 1.7rem;
-  }
-
   .hero-text {
     margin-top: 6px;
     font-size: 0.82rem;
@@ -1201,6 +1390,23 @@ footer {
 
   .detail-page {
     gap: 6px;
+  }
+
+  #details.detail-page {
+    gap: 6px;
+    padding-block: 6px;
+  }
+
+  #details .audience li {
+    padding: 5px 8px;
+  }
+
+  #details .level-row {
+    padding: 5px 7px;
+  }
+
+  #details .details-box {
+    padding: 6px 8px;
   }
 
   .process-list {
