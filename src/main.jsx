@@ -81,7 +81,7 @@ const pages = [
   },
 ];
 const navigationPages = pages;
-const siteUrl = "https://oferguez.net";
+const siteUrl = "https://friendly-maths.com";
 
 const detailItems = [
   {
