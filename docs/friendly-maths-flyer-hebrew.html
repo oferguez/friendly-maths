@@ -1,301 +1,303 @@
 <!doctype html>
 <html lang="he" dir="rtl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Friendly Maths</title>
-    <style>
-      @page {
-        size: 1080px 1080px;
-        margin: 0;
-      }
 
-      * {
-        box-sizing: border-box;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Friendly Maths</title>
+  <style>
+    @page {
+      size: 1080px 1080px;
+      margin: 0;
+    }
 
-      html,
-      body {
-        width: 1080px;
-        height: 1080px;
-        margin: 0;
-      }
+    * {
+      box-sizing: border-box;
+    }
 
-      body {
-        color: #243f2d;
-        background: #ffffff;
-        direction: rtl;
-        font-family: Arial, Helvetica, sans-serif;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
+    html,
+    body {
+      width: 1080px;
+      height: 1080px;
+      margin: 0;
+    }
 
-      .flyer {
-        display: grid;
-        grid-template-rows: auto 1fr auto;
-        width: 1080px;
-        height: 1080px;
-        overflow: hidden;
-        background: #f4fbec;
-      }
+    body {
+      color: #243f2d;
+      background: #ffffff;
+      direction: rtl;
+      font-family: Arial, Helvetica, sans-serif;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
 
-      header {
-        display: flex;
-        align-items: center;
-        gap: 31px;
-        padding: 41px 77px 36px;
-        border-bottom: 3px solid #d3e9c1;
-        background: #e3f1dc;
-      }
+    .flyer {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      background: #f4fbec;
+    }
 
-      .logo {
-        display: block;
-        width: 160px;
-        height: 160px;
-        border-radius: 10px;
-        object-fit: cover;
-      }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 31px;
+      padding: 41px 77px 36px;
+      border-bottom: 3px solid #d3e9c1;
+      background: #e3f1dc;
+    }
 
-      .brand {
-        min-width: 0;
-      }
+    .logo {
+      display: block;
+      width: 160px;
+      height: 160px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
 
-      .brand-name {
-        margin: 0;
-        color: #17212b;
-        font-size: 46px;
-        font-weight: 800;
-        line-height: 1;
-        direction: ltr;
-        text-align: right;
-      }
+    .brand {
+      min-width: 0;
+    }
 
-      .brand-line {
-        margin: 10px 0 0;
-        color: #3f7c45;
-        font-size: 35px;
-        font-weight: 800;
-        text-transform: uppercase;
-      }
+    .brand-name {
+      margin: 0;
+      color: #17212b;
+      font-size: 46px;
+      font-weight: 800;
+      line-height: 1;
+      direction: ltr;
+      text-align: right;
+    }
 
-      .location {
-        margin: 7px 0 0;
-        color: #5b6d5f;
-        font-size: 35px;
-        font-weight: 800;
-      }
+    .brand-line {
+      margin: 10px 0 0;
+      color: #3f7c45;
+      font-size: 35px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
 
-      main {
-        display: grid;
-        align-content: center;
-        gap: 52px;
-        padding: 41px 77px;
-      }
+    .location {
+      margin: 7px 0 0;
+      color: #5b6d5f;
+      font-size: 35px;
+      font-weight: 800;
+    }
 
-      .intro {
-        max-width: 833px;
-      }
+    main {
+      display: grid;
+      align-content: center;
+      gap: 52px;
+      padding: 31px 77px;
+    }
 
-      .eyebrow {
-        margin: 0 0 15px;
-        color: #b77a08;
-        font-size: 20px;
-        font-weight: 800;
-        text-transform: uppercase;
-      }
+    .intro {
+      max-width: 833px;
+    }
 
-      h1 {
-        max-width: 849px;
-        margin: 0;
-        color: #173d28;
-        font-size: 51px;
-        line-height: 1.02;
-      }
+    .eyebrow {
+      margin: 0 0 15px;
+      color: #b77a08;
+      font-size: 20px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
 
-      .intro-copy {
-        max-width: 792px;
-        margin: 18px 0 0;
-        color: #52655a;
-        font-size: 27px;
-        line-height: 1.45;
-      }
+    h1 {
+      max-width: 849px;
+      margin: 0;
+      color: #173d28;
+      font-size: 51px;
+      line-height: 1.02;
+    }
 
-      .levels {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        border-top: 3px solid #b9dba5;
-        border-bottom: 3px solid #b9dba5;
-        border: 3px solid #b9dba5;
-      }
+    .intro-copy {
+      max-width: 792px;
+      margin: 18px 0 0;
+      color: #52655a;
+      font-size: 27px;
+      line-height: 1.45;
+    }
 
-      .level {
-        min-height: 139px;
-        padding: 26px;
-      }
+    .levels {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-top: 3px solid #b9dba5;
+      border-bottom: 3px solid #b9dba5;
+      border: 3px solid #b9dba5;
+    }
 
-      .level h2 {
-        margin: 0;
-        color: #243f2d;
-        font-size: 26px;
-        line-height: 1.18;
-      }
+    .level {
+      min-height: 139px;
+      padding: 26px;
+    }
 
-      .level p {
-        margin: 12px 0 0;
-        color: #5b6d5f;
-        font-size: 19px;
-        line-height: 1.35;
-      }
+    .level h2 {
+      margin: 0;
+      color: #243f2d;
+      font-size: 26px;
+      line-height: 1.18;
+    }
 
-      .details {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        overflow: hidden;
-        border: 3px solid #83c989;
-        border-radius: 10px;
-        background: #ffffff;
-      }
+    .level p {
+      margin: 12px 0 0;
+      color: #5b6d5f;
+      font-size: 19px;
+      line-height: 1.35;
+    }
 
-      .detail {
-        padding: 21px 26px;
-      }
+    .details {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      overflow: hidden;
+      border: 3px solid #83c989;
+      border-radius: 10px;
+      background: #ffffff;
+    }
 
-      .detail + .detail {
-        border-right: 3px solid #d3e9c1;
-      }
+    .detail {
+      padding: 21px 26px;
+    }
 
-      .detail strong {
-        display: block;
-        color: #3f7c45;
-        font-size: 28px;
-        line-height: 1.15;
-      }
+    .detail+.detail {
+      border-right: 3px solid #d3e9c1;
+    }
 
-      .detail span {
-        display: block;
-        margin-top: 8px;
-        color: #5b6d5f;
-        font-size: 21px;
-        line-height: 1.3;
-      }
+    .detail strong {
+      display: block;
+      color: #3f7c45;
+      font-size: 28px;
+      line-height: 1.15;
+    }
 
-      .credentials {
-        margin: 0;
-        color: #52655a;
-        font-size: 29px;
-        font-weight: 700;
-        line-height: 1.4;
-        text-align: center;
-      }
+    .detail span {
+      display: block;
+      margin-top: 8px;
+      color: #5b6d5f;
+      font-size: 21px;
+      line-height: 1.3;
+    }
 
-      .credentials-group {
-        display: grid;
-        gap: 8px;
-      }
+    .credentials {
+      margin: 0;
+      color: #52655a;
+      font-size: 29px;
+      font-weight: 700;
+      line-height: 1.4;
+      text-align: center;
+    }
 
-      footer {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        align-items: center;
-        gap: 51px;
-        padding: 36px 76px;
-        color: #ffffff;
-        background: #3f7c45;
-      }
+    .credentials-group {
+      display: grid;
+      gap: 8px;
+    }
 
-      .call-to-action h2 {
-        margin: 0;
-        color: #ffffff;
-        font-size: 36px;
-        line-height: 1.1;
-      }
+    footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 51px;
+      padding: 18px 76px;
+      color: #ffffff;
+      background: #3f7c45;
+    }
 
-      .call-to-action > p {
-        margin: 13px 0 0;
-        color: #ffffff;
-        font-size: 30px;
-        line-height: 1.35;
-        font-weight: 800;
-      }
+    .call-to-action h2 {
+      margin: 0;
+      color: #ffffff;
+      font-size: 36px;
+      line-height: 1.1;
+    }
 
-      .contact {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 13px 36px;
-        margin-top: 21px;
-        color: #ffffff;
-        font-size: 30px;
-        font-weight: 800;
-      }
+    .call-to-action>p {
+      margin: 13px 0 0;
+      color: #ffffff;
+      font-size: 30px;
+      line-height: 1.35;
+      font-weight: 800;
+    }
 
-      .ltr {
-        direction: ltr;
-        unicode-bidi: isolate;
-      }
+    .contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px 36px;
+      margin-top: 21px;
+      color: #ffffff;
+      font-size: 30px;
+      font-weight: 800;
+    }
 
-      .qr {
-        display: block;
-        width: 149px;
-        height: 149px;
-        padding: 8px;
-        background: #ffffff;
-      }
-    </style>
-  </head>
-  <body>
-    <article class="flyer">
-      <header>
-        <img class="logo" src="../assets/friendly-maths-logo-mark.png" alt="" />
-        <div class="brand">
-          <p class="brand-name">Ofer Guez</p>
-          <p class="brand-line">שיעורים פרטיים במתמטיקה</p>
-          <p class="location">הכנה לבגרות במתמטיקה, 3, 4 ו-5 יחידות, אונליין</p>
+    .ltr {
+      direction: ltr;
+      unicode-bidi: isolate;
+    }
+
+    .qr {
+      display: block;
+      width: 149px;
+      height: 149px;
+      padding: 8px;
+      background: #ffffff;
+    }
+  </style>
+</head>
+
+<body>
+  <article class="flyer">
+    <header>
+      <img class="logo" src="../assets/friendly-maths-logo-mark.png" alt="" />
+      <div class="brand">
+        <p class="brand-name">עופר גז</p>
+        <p class="brand-line">שיעורים פרטיים במתמטיקה</p>
+        <p class="location">הכנה לבגרות במתמטיקה, 3, 4 ו-5 יחידות, אונליין</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="intro">
+        <h1>להבין במקום לשנן</h1>
+        <p class="intro-copy">
+          שיעורים אישיים אונליין, בקצב המתאים לתלמיד, לסגירת פערים, בניית ביטחון והבנה אמיתית של החומר.
+        </p>
+      </section>
+
+      <section class="details" aria-label="פרטי השיעורים">
+        <div class="detail">
+          <strong>הסברים ברורים</strong>
+          <span>להדגים ולהבין את הרעיונות, במקום לשנן שיטות</span>
         </div>
-      </header>
-
-      <main>
-        <section class="intro">
-          <h1>להבין במקום לשנן</h1>
-          <p class="intro-copy">
-            שיעורים אישיים אונליין, בקצב המתאים לתלמיד, לסגירת פערים, בניית ביטחון והבנה אמיתית של החומר.
-          </p>
-        </section>
-
-        <section class="details" aria-label="פרטי השיעורים">
-          <div class="detail">
-            <strong>הסברים ברורים</strong>
-            <span>להדגים ולהבין את הרעיונות, במקום לשנן שיטות</span>
-          </div>
-          <div class="detail">
-            <strong>שיעורים אונליין</strong>
-            <span>מהבית, בקצב אישי ובשעות שנקבע יחד</span>
-          </div>
-          <div class="detail">
-            <strong>שיעור היכרות חינם</strong>
-            <span>מפגש היכרות שבו נבין את הצרכים ונבנה דרך עבודה</span>
-          </div>
-        </section>
-
-        <div class="credentials-group">
-          <p class="credentials">
-            תואר ראשון במתמטיקה ובמדעי המחשב &nbsp;|&nbsp; תואר שני בפילוסופיה
-          </p>
-          <p class="credentials">שנים של ניסיון בהוראה פרטית של מתמטיקה</p>
+        <div class="detail">
+          <strong>שיעורים אונליין</strong>
+          <span>מהבית, בקצב אישי ובשעות שנקבע יחד</span>
         </div>
-      </main>
-
-      <footer>
-        <div class="call-to-action">
-          <h2>ליצירת קשר</h2>
-          <p>התקשרו או שלחו הודעה, ונתאם שיעור היכרות חינם.</p>
-          <div class="contact">
-            <span class="ltr">054-7159795 | guez.ofer@gmail.com</span>
-            <!-- <span class="ltr">guez.ofer@gmail.com</span> -->
-            <span class="ltr">friendly-maths.com</span> 
-          </div>
+        <div class="detail">
+          <strong>שיעור היכרות חינם</strong>
+          <span>מפגש היכרות שבו נבין את הצרכים ונבנה דרך עבודה</span>
         </div>
-        <img class="qr" src="friendly-maths-qr.png" alt="קוד QR לאתר friendly-maths.com" />
-      </footer>
-    </article> 
-  </body>
+      </section>
+
+      <div class="credentials-group">
+        <p class="credentials">תואר ראשון במתמטיקה ובמדעי המחשב </p>
+        <p class="credentials">תואר שני בפילוסופיה ותרבות דיגיטלית</p>
+        <p class="credentials">ניסיון בהוראה פרטית של מתמטיקה</p>
+      </div>
+    </main>
+
+    <footer>
+      <div class="call-to-action">
+        <h2>ליצירת קשר</h2>
+        <p>התקשרו או שלחו הודעה, ונתאם שיעור היכרות חינם.</p>
+        <div class="contact">
+          <span class="ltr">054-7159795 | guez.ofer@gmail.com</span>
+          <!-- <span class="ltr">guez.ofer@gmail.com</span> -->
+          <span class="ltr">friendly-maths.com</span>
+        </div>
+      </div>
+      <img class="qr" src="friendly-maths-qr.png" alt="קוד QR לאתר friendly-maths.com" />
+    </footer>
+  </article>
+</body>
+
 </html>
